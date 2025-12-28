@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ADMIN 관리자</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Malgun Gothic', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #2c3e50 0%, #1a1a2e 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .portal-container {
+            background: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 25px 70px rgba(0, 0, 0, 0.4);
+            overflow: hidden;
+            max-width: 800px;
+            width: 100%;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .portal-header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 45px 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .portal-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #3498db, #2ecc71);
+        }
+        
+        .portal-header h1 {
+            font-size: 2.6rem;
+            margin-bottom: 8px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+        
+        .portal-header p {
+            opacity: 0.85;
+            font-size: 1.15rem;
+            font-weight: 400;
+        }
+        
+        .portal-content {
+            padding: 40px;
+        }
+        
+        .welcome-section {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 25px;
+            border-bottom: 1px solid #ecf0f1;
+        }
+        
+        .welcome-section h2 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.8rem;
+            font-weight: 600;
+        }
+        
+        .welcome-section p {
+            color: #7f8c8d;
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+        
+        .admin-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        .feature-card {
+            background: #f8fafc;
+            border-radius: 16px;
+            padding: 28px;
+            text-align: center;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid #e2e8f0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #3498db, #2ecc71);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+            border-color: #3498db;
+        }
+        
+        .feature-card:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 22px;
+            display: inline-block;
+            background: linear-gradient(135deg, #3498db, #2ecc71);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .feature-title {
+            font-size: 1.4rem;
+            color: #2c3e50;
+            margin-bottom: 14px;
+            font-weight: 700;
+        }
+        
+        .feature-desc {
+            color: #64748b;
+            line-height: 1.6;
+            margin-bottom: 22px;
+            font-size: 0.95rem;
+        }
+        
+        .launch-btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #3498db 0%, #2c3e50 100%);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.05rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            letter-spacing: 0.5px;
+        }
+        
+        .launch-btn:hover {
+            background: linear-gradient(135deg, #2980b9 0%, #2c3e50 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(52, 152, 219, 0.3);
+        }
+        
+        .launch-btn.secondary {
+            background: linear-gradient(135deg, #95a5a6 0%, #7f8c8d 100%);
+        }
+        
+        .launch-btn.secondary:hover {
+            background: linear-gradient(135deg, #7f8c8d 0%, #95a5a6 100%);
+            box-shadow: 0 8px 25px rgba(127, 140, 141, 0.3);
+        }
+        
+        .system-info {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            border-radius: 16px;
+            padding: 28px;
+            margin-top: 30px;
+            border: 1px solid #e2e8f0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .system-info::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #3498db, #2ecc71);
+        }
+        
+        .system-info h3 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 18px;
+        }
+        
+        .info-item {
+            padding: 15px;
+            background: white;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+        
+        .info-item:hover {
+            border-color: #3498db;
+            transform: translateY(-2px);
+        }
+        
+        .info-label {
+            font-weight: 600;
+            color: #64748b;
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+        
+        .info-value {
+            color: #2c3e50;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+        
+        .portal-footer {
+            background: #f8fafc;
+            padding: 25px;
+            text-align: center;
+            border-top: 1px solid #e2e8f0;
+        }
+        
+        .tech-badges {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+        
+        .tech-badge {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            color: #1976d2;
+            padding: 10px 18px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            border: 1px solid #bbdefb;
+            transition: all 0.3s ease;
+        }
+        
+        .tech-badge:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(30, 136, 229, 0.2);
+        }
+        
+        @media (max-width: 768px) {
+            .portal-header {
+                padding: 35px 25px;
+            }
+            
+            .portal-header h1 {
+                font-size: 2.2rem;
+            }
+            
+            .portal-content {
+                padding: 30px 25px;
+            }
+            
+            .admin-features {
+                grid-template-columns: 1fr;
+            }
+            
+            .welcome-section h2 {
+                font-size: 1.6rem;
+            }
+            
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            body {
+                padding: 15px;
+            }
+            
+            .portal-container {
+                border-radius: 16px;
+            }
+            
+            .portal-header {
+                padding: 30px 20px;
+            }
+            
+            .portal-header h1 {
+                font-size: 1.9rem;
+            }
+            
+            .portal-header p {
+                font-size: 1rem;
+            }
+            
+            .portal-content {
+                padding: 25px 20px;
+            }
+            
+            .feature-card {
+                padding: 22px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="portal-container">
+        <!-- 헤더 -->
+        <header class="portal-header">
+            <h1>ADMIN</h1>
+            <p>데이터 관리 시스템</p>
+        </header>
+        
+        <!-- 메인 콘텐츠 -->
+        <div class="portal-content">
+            <!-- 환영 메시지 -->
+            <div class="welcome-section">
+                <h2>관리 시스템 시작하기</h2>
+                <p>Firebase 기반의 안전하고 강력한 데이터 관리 도구에 접속합니다</p>
+            </div>
+            
+            <!-- 기능 카드 -->
+            <div class="admin-features">
+                <!-- 회원 관리 -->
+                <div class="feature-card">
+                    <div class="feature-icon">👥</div>
+                    <div class="feature-title">회원 데이터 관리</div>
+                    <p class="feature-desc">
+                        등록된 회원 정보를 확인하고<br>
+                        엑셀 파일로 정리된 리포트를 생성하세요
+                    </p>
+                    <a href="https://login-57c14.web.app" class="launch-btn secondary" target="_blank">
+                        👥 회원 데이터 관리
+                    </a>
+                </div>
+                
+                <!-- 시스템 문서 -->
+                <div class="feature-card">
+                    <div class="feature-icon">📚</div>
+                    <div class="feature-title">시스템 문서</div>
+                    <p class="feature-desc">
+                        관리자 매뉴얼과 사용 가이드를 확인하고<br>
+                        시스템을 최적으로 활용하세요
+                    </p>
+                    <button class="launch-btn secondary" onclick="showManual()">
+                        📖 매뉴얼 보기
+                    </button>
+                </div>
+                
+                <!-- 추가 기능 카드 -->
+                <div class="feature-card">
+                    <div class="feature-icon">⚙️</div>
+                    <div class="feature-title">시스템 설정</div>
+                    <p class="feature-desc">
+                        시스템 환경을 구성하고<br>
+                        관리자 권한을 설정하세요
+                    </p>
+                    <button class="launch-btn" onclick="showSettings()">
+                        ⚙️ 설정 열기
+                    </button>
+                </div>
+            </div>
+            
+            <!-- 시스템 정보 -->
+            <div class="system-info">
+                <h3>🔧 시스템 정보</h3>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <div class="info-label">시스템 버전</div>
+                        <div class="info-value">ADMIN v2.0</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">데이터베이스</div>
+                        <div class="info-value">Firestore</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">호스팅</div>
+                        <div class="info-value">Firebase Hosting</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">주소</div>
+                        <div class="info-value">login-57c14.web.app</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 푸터 -->
+        <footer class="portal-footer">
+            <div class="tech-badges">
+                <span class="tech-badge">Firebase</span>
+                <span class="tech-badge">Firestore</span>
+                <span class="tech-badge">Google Cloud</span>
+                <span class="tech-badge">실시간 데이터</span>
+            </div>
+        </footer>
+    </div>
+    
+    <!-- 스크립트 -->
+    <script>
+        // 매뉴얼 표시
+        function showManual() {
+            alert(`📘 ADMIN 시스템 매뉴얼
+
+1. 회원 데이터 관리
+   - "회원 데이터 관리" 버튼 클릭
+   - Firebase 관리자 페이지로 이동
+   - 회원 정보 확인 및 엑셀 다운로드
+
+2. 시스템 설정
+   - "설정 열기" 버튼 클릭
+   - 관리자 권한 설정
+   - 시스템 환경 구성
+
+3. 시스템 정보
+   - 프로젝트 ID: login-57c14
+   - 호스팅 주소: https://login-57c14.web.app
+   - 데이터베이스: Firestore
+
+4. 지원
+   - 기술 문의: 개발자에게 연락
+   - 시스템 업데이트: 정기적 유지보수`);
+        }
+        
+        // 시스템 설정 표시
+        function showSettings() {
+            alert(`⚙️ ADMIN 시스템 설정
+
+시스템 설정 페이지를 여는 중입니다...
+이 기능은 관리자 전용으로 보호되어 있습니다.
+
+관리자 권한이 필요합니다.
+개발자에게 문의하여 접근 권한을 요청하세요.`);
+        }
+        
+        // 시스템 상태 체크
+        function checkSystemStatus() {
+            console.log('시스템 상태: 정상');
+            console.log('Firebase 연결: 준비됨');
+            console.log('관리자 포털: 실행 중');
+        }
+        
+        // 페이지 로드 시 실행
+        window.addEventListener('load', function() {
+            checkSystemStatus();
+            console.log('ADMIN 관리자 시스템 로드 완료');
+            
+            // 페이지 진입 효과
+            document.querySelector('.portal-container').style.opacity = '0';
+            document.querySelector('.portal-container').style.transform = 'translateY(20px)';
+            
+            setTimeout(() => {
+                document.querySelector('.portal-container').style.transition = 'all 0.6s ease';
+                document.querySelector('.portal-container').style.opacity = '1';
+                document.querySelector('.portal-container').style.transform = 'translateY(0)';
+            }, 100);
+        });
+    </script>
+</body>
+</html>
